@@ -29,5 +29,5 @@ jobs:
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           SYNC_CHANNELS: ${{ secrets.SYNC_CHANNELS }}
           TELEGRAPH_ACCESS_TOKEN: ${{ secrets.TELEGRAPH_ACCESS_TOKEN || '' }}
-          TELEGRAM_SESSION_STRING: ${{ secrets.TELEGRAM_SESSION_STRING }}
+          TELEGRAM_SESSION_STRING: BQDL1yoAhNwm9PYawG4bPDVE_rEkVCRdlo3AbPCqzfN9HzVXoMEZDiLwAZC9SPqUJCn2WEnfhufpWgtUU9l63KXX59ntztofGJTQgtgMwL1gxAFAFQTSSZ5LGqFy8sCqZpzaJMkY9EksmdyuSDyYi4FvhtJ-p48lhLOrg3Jnb_6tu_wbOSHsQpUiNCvrfoUrPU7jZ6-8LMUPvbwRbknvGz2ez9bCQmeylGHg50WR2xIKlSsrcZlGpkCaTocNqFbmHhslWviOI-_rL6A5NATWMoAuB4NsbF409FkLGyb8PYfuZMNnutStsZ9L3_ezsRm5wU7ja_v5rJvdBmutbWMr_p3E7VR9rwAAAABEGOf6AA
         run: python sync.py
