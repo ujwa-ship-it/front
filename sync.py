@@ -376,7 +376,7 @@ async def sync_channel(channel_id):
 # -------------------------------------------------------------------
 async def main():
     await ensure_indexes()
-     session_string = await load_session_from_db()
+    session_string = await load_session_from_db()
     if session_string:
         app.session_string = session_string
     # ---
