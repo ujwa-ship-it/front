@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+motor
+pyrogram
+tgcrypto
+python-dotenv
+pillow
+telegraph
+python-multipart
+passlib[bcrypt]
+
