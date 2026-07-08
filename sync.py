@@ -376,13 +376,22 @@ async def sync_channel(channel_id):
 # -------------------------------------------------------------------
 async def main():
     await ensure_indexes()
-    import os  # already at top, just to be sure
 
-    # In main():
+    # 1. Try environment variable first
     session_str = os.getenv("TELEGRAM_SESSION_STRING")
-    if session_str:
-        app.session_string = session_str
-        log.info("Using session string from environment")
+
+    # 2. If not set, try loading from MongoDB
+    if not session_str:
+        session_str = await load_session_from_db()
+        if session_str:
+            log.info("Loaded session from MongoDB")
+        else:
+            log.error("No session found in environment or database. "
+                      "Run sync.py locally once to save a session.")
+            sys.exit(1)
+
+    # 3. Set the session on the global client BEFORE starting
+    app.session_string = session_str
 
     await app.start()
     await save_session_to_db()
@@ -416,7 +425,7 @@ async def main():
     mongo.close()
     log.info("MongoDB connection closed.")
     return
-
+    
 if __name__ == "__main__":
     try:
         asyncio.run(main())
