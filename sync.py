@@ -75,6 +75,15 @@ db = mongo.nexstream
 videos_col = db.videos
 sync_state_col = db.sync_state
 sessions_col = db.sessions
+# -------------------------------------------------------------------
+# LOAD SESSION FROM MONGODB (or create a new one)
+# -------------------------------------------------------------------
+async def load_session_from_db():
+    """Try to load an existing session string from MongoDB."""
+    session_data = await sessions_col.find_one({"name": "main"})
+    if session_data and session_data.get("string"):
+        return session_data["string"]
+    return None
 
 telegraph = None
 if TELEGRAPH_TOKEN and TELEGRAPH_OK:
@@ -367,6 +376,11 @@ async def sync_channel(channel_id):
 # -------------------------------------------------------------------
 async def main():
     await ensure_indexes()
+     session_string = await load_session_from_db()
+    if session_string:
+        app.session_string = session_string
+    # ---
+
     await app.start()
     await save_session_to_db()
 
