@@ -376,10 +376,13 @@ async def sync_channel(channel_id):
 # -------------------------------------------------------------------
 async def main():
     await ensure_indexes()
-    session_string = await load_session_from_db()
-    if session_string:
-        app.session_string = session_string
-    # ---
+    import os  # already at top, just to be sure
+
+    # In main():
+    session_str = os.getenv("TELEGRAM_SESSION_STRING")
+    if session_str:
+        app.session_string = session_str
+        log.info("Using session string from environment")
 
     await app.start()
     await save_session_to_db()
