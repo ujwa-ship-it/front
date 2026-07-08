@@ -18,7 +18,10 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-
+      - name: Debug session string length
+        run: echo "Session string length is ${#TELEGRAM_SESSION_STRING} characters"
+        env:
+         TELEGRAM_SESSION_STRING: ${{ secrets.TELEGRAM_SESSION_STRING }}
       - name: Run sync
         env:
           MONGO_URL: ${{ secrets.MONGO_URL }}
