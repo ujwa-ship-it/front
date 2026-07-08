@@ -29,5 +29,5 @@ jobs:
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           SYNC_CHANNELS: ${{ secrets.SYNC_CHANNELS }}
           TELEGRAPH_ACCESS_TOKEN: ${{ secrets.TELEGRAPH_ACCESS_TOKEN || '' }}
-          TELEGRAM_SESSION_STRING: 
+          TELEGRAM_SESSION_STRING: ${{ secrets.TELEGRAM_SESSION_STRING }}
         run: python sync.py
