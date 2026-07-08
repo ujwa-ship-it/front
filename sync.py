@@ -68,13 +68,16 @@ else:
 # -------------------------------------------------------------------
 # SETUP
 # -------------------------------------------------------------------
-app = Client("sync_session", api_id=API_ID, api_hash=API_HASH)
+# CHANGED: Replaced global initialization with a placeholder. 
+# The client is now instantiated dynamically inside main() using the session string.
+app = None 
 
 mongo = AsyncIOMotorClient(MONGO_URL)
 db = mongo.nexstream
 videos_col = db.videos
 sync_state_col = db.sync_state
 sessions_col = db.sessions
+
 # -------------------------------------------------------------------
 # LOAD SESSION FROM MONGODB (or create a new one)
 # -------------------------------------------------------------------
@@ -375,6 +378,7 @@ async def sync_channel(channel_id):
 # ENTRY POINT
 # -------------------------------------------------------------------
 async def main():
+    global app  # Explicitly bind the global app placeholder to this scope
     await ensure_indexes()
 
     # 1. Try environment variable first
@@ -389,9 +393,16 @@ async def main():
             log.error("No session found in environment or database. "
                       "Run sync.py locally once to save a session.")
             sys.exit(1)
+    else:
+        log.info("Loaded session from GitHub Environment Variables")
 
-    # 3. Set the session on the global client BEFORE starting
-    app.session_string = session_str
+    # 3. Dynamic setup of Pyrogram Client using the session string explicitly
+    app = Client(
+        "sync_session", 
+        api_id=API_ID, 
+        api_hash=API_HASH, 
+        session_string=session_str
+    )
 
     await app.start()
     await save_session_to_db()
